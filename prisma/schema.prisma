@@ -9,30 +9,20 @@ generator client {
 }
 
 datasource db {
-  provider  = "postgresql"
-  url       = env("DATABASE_URL")
-  directUrl = env("DIRECT_URL")
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
 }
 
 model User {
-  id         String    @id @default(cuid()) // Unique identifier
+  id         String    @id @default(cuid()) @map("_id") // Unique identifier
   clerkId    String    @unique              // Clerk-provided ID
   email      String    @unique              // User's email
   username   String                          // User's username
   createdAt  DateTime  @default(now())      // Timestamp of user creation
   // add another table like this
-  // tempTexts  TempText[]                     // Relation to TempText
+  // tempTexts  demo[]                     // Relation to TempText
 }
 
-// model TempText {
-//   id         String    @id @default(cuid()) // Unique identifier
-//   userId     String                          // Foreign key linking to User
-//   user       User       @relation(fields: [userId], references: [id], onDelete: Cascade)
-//   text       String                          // The temporary text
-//   code       String     @unique              // 4-digit code (0000–9999)
-//   createdAt  DateTime   @default(now())      // Creation timestamp
-//   expiresAt  DateTime                         // Expiry timestamp
-//   updatedAt  DateTime   @updatedAt           // Auto-updated timestamp
-
-//   @@index([code])                             // Index for fast searching by code
+// model demo {
+// demo
 // }

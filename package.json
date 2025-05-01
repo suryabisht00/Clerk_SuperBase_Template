@@ -3,8 +3,11 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --turbopack",
-    "build": "next build",
+    "dev": "next dev",
+    "swagger": "node scripts/generate-swagger.js && cd swagger-server && npm start",
+    "dev:all": "npm run generate-swagger && concurrently \"npm run dev\" \"npm run swagger\"",
+    "generate-swagger": "node scripts/generate-swagger.js",
+    "build": "npm run generate-swagger && next build",
     "start": "next start",
     "lint": "next lint"
   },
@@ -14,18 +17,21 @@
     "@prisma/client": "^6.2.1",
     "next": "15.1.4",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "swagger-ui-react": "^5.12.0"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "concurrently": "^8.2.2",
     "eslint": "^9",
     "eslint-config-next": "15.1.4",
     "postcss": "^8",
-    "prisma": "^6.2.1",
+    "prisma": "^6.7.0",
     "tailwindcss": "^3.4.1",
-    "typescript": "^5"
+    "typescript": "^5",
+    "@types/swagger-ui-react": "^4.18.3"
   }
 }
