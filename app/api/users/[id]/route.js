@@ -3,7 +3,8 @@ import { NextResponse } from 'next/server';
 
 export async function GET(request, { params }) {
   try {
-    const { id } = params;
+    // Await the params object before destructuring
+    const { id } = await params;
     const user = await UserService.getUserById(id);
     
     if (!user) {
@@ -25,7 +26,8 @@ export async function GET(request, { params }) {
 
 export async function PUT(request, { params }) {
   try {
-    const { id } = params;
+    // Await the params object before destructuring
+    const { id } = await params;
     const userData = await request.json();
     
     const updatedUser = await UserService.updateUser(id, userData);
@@ -46,7 +48,8 @@ export async function PUT(request, { params }) {
 
 export async function DELETE(request, { params }) {
   try {
-    const { id } = params;
+    // Await the params object before destructuring
+    const { id } = await params;
     
     const deletedUser = await UserService.deleteUser(id);
     

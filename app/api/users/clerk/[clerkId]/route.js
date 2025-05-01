@@ -3,7 +3,8 @@ import { NextResponse } from 'next/server';
 
 export async function GET(request, { params }) {
   try {
-    const { clerkId } = params;
+    // Await the params object before destructuring
+    const { clerkId } = await params;
     const user = await UserService.getUserByClerkId(clerkId);
     
     if (!user) {
