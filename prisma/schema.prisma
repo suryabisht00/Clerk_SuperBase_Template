@@ -18,6 +18,7 @@ model User {
   clerkId    String    @unique              // Clerk-provided ID
   email      String    @unique              // User's email
   username   String                          // User's username
+  name       String?                         // User's full name from Clerk
   createdAt  DateTime  @default(now())      // Timestamp of user creation
   // add another table like this
   // tempTexts  demo[]                     // Relation to TempText

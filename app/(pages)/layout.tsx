@@ -5,7 +5,7 @@ import { ClerkProvider,
   ClerkLoaded,
   ClerkLoading,
  } from "@clerk/nextjs";
-import Navbar from "./components/Navbar";
+import Navbar from "../components/Navbar";
 import {dark} from "@clerk/themes";
 
 

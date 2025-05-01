@@ -24,12 +24,18 @@ export const checkUser = async () => {
 
     // Generate username from email or name
     const username = user.emailAddresses[0].emailAddress.split('@')[0];
+    
+    // Get user's full name from Clerk
+    const firstName = user.firstName || "";
+    const lastName = user.lastName || "";
+    const fullName = [firstName, lastName].filter(Boolean).join(" ");
 
     const newUser = await db.user.create({
       data: {
         clerkId: user.id,
         email: user.emailAddresses[0].emailAddress,
         username: username,
+        name: fullName || null, // Store the full name or null if empty
       },
     });
 
