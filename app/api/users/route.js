@@ -1,4 +1,4 @@
-import { UserService } from '@/app/services/user.service';
+import { UserService } from '@/app/services/userservice';
 import { NextResponse } from 'next/server';
 
 export async function GET() {
