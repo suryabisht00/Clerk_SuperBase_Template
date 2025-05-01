@@ -1,48 +1,59 @@
-import { currentUser } from "@clerk/nextjs/server";
-import { db } from "./prisma";
+import { db } from './prisma';
+import { auth, currentUser } from '@clerk/nextjs/server';
 
-export const checkUser = async () => {
+export async function checkUser() {
   try {
+    // Get the current authenticated user
     const user = await currentUser();
-    console.log("Current User:", user);
-
+    
+    // Return early if no user is authenticated
     if (!user) {
-      console.log("No user found");
       return null;
     }
 
-    const loggedInUser = await db.user.findUnique({
-      where: {
-        clerkId: user.id,
-      },
+    // Look for existing user in database
+    const existingUser = await db.user.findUnique({
+      where: { clerkId: user.id },
     });
 
-    if (loggedInUser) {
-      console.log("Logged In User:", loggedInUser);
-      return loggedInUser;
+    // Return the existing user if found
+    if (existingUser) {
+      return existingUser;
     }
 
-    // Generate username from email or name
-    const username = user.emailAddresses[0].emailAddress.split('@')[0];
-    
-    // Get user's full name from Clerk
-    const firstName = user.firstName || "";
-    const lastName = user.lastName || "";
-    const fullName = [firstName, lastName].filter(Boolean).join(" ");
-
+    // Create a new user if not found
     const newUser = await db.user.create({
       data: {
         clerkId: user.id,
-        email: user.emailAddresses[0].emailAddress,
-        username: username,
-        name: fullName || null, // Store the full name or null if empty
+        email: user.emailAddresses[0]?.emailAddress || '',
+        name: `${user.firstName || ''} ${user.lastName || ''}`.trim(),
+        username: user.username || user.id,
       },
     });
 
-    console.log("New User Created:", newUser);
     return newUser;
   } catch (error) {
-    console.error("Error in checkUser:", error.message);
+    console.error("Error in checkUser:", error);
     return null;
   }
-};
+}
+
+// Alternative helper function that uses auth() instead
+export async function getCurrentDbUser() {
+  try {
+    const { userId } = auth();
+    
+    if (!userId) {
+      return null;
+    }
+    
+    const user = await db.user.findUnique({
+      where: { clerkId: userId },
+    });
+    
+    return user;
+  } catch (error) {
+    console.error("Error getting current DB user:", error);
+    return null;
+  }
+}
