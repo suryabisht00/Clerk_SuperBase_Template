@@ -1,4 +1,4 @@
-import { UserDTO } from '../dto/user.dto';
+import { UserDTO } from '../dto/userdto';
 
 export class UserMapper {
   /**

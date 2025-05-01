@@ -1,5 +1,5 @@
-import { UserRepository } from '../repositories/user.repository';
-import { UserMapper } from '../mappers/user.mapper';
+import { UserRepository } from '../repositories/userrepository';
+import { UserMapper } from '../mappers/usermapper';
 
 export class UserService {
   /**
